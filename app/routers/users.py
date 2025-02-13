@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from app.database import SessionLocal
 from app.models import User
 from app.auth import hash_password, verify_password, create_jwt_token
+from app.auth_dependency import get_current_user
 
 router = APIRouter()
 
@@ -35,4 +36,8 @@ def login_user(email: str, password: str, db: Session = Depends(get_db)):
         raise HTTPException(status_code=401, detail="Invalid credentials")
 
     token = create_jwt_token({"sub": user.email})
-    return {"access_token": token, "token_type": "bearer"}
+    return {"access_token": token, "token_type": "Bearer"}
+
+@router.get("/protected")
+def protected_route(current_user: dict = Depends(get_current_user)):
+    return {"message": "Welcome to the protected route!", "user": current_user}

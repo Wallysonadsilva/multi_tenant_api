@@ -28,7 +28,7 @@ def create_jwt_token(data: dict, expire_delta: timedelta = None) -> str:
 def decode_jwt_token(token: str) -> dict:
     try:
         decoded_token = jwt.decode(token, token_secret, algorithms=["HS256"])
-        return decoded_token if decoded_token["exp"] >= datetime.utcnow().timestamp() else None
+        return decoded_token if decoded_token["exp"] >= int(datetime.utcnow().timestamp()) else None
     except jwt.ExpiredSignatureError:
         return None
     except jwt.InvalidTokenError:

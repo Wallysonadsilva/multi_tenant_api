@@ -3,7 +3,6 @@ import jwt
 from datetime import datetime,timedelta
 from passlib.context import CryptContext
 from dotenv import load_dotenv
-from sqlalchemy.util import deprecated
 
 load_dotenv()
 
